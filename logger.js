@@ -39,10 +39,14 @@
    * The error catcher will capture all errors that bubble up to the window, logs them to the
    * console and server if appropriate.
    * When returning true will suppress all errors.
+   * 
+   * Please note that some browsers have yet to implement the new spec and 
+   * will not provide an error object as a paramater.
    */
   function initErrorListener() {
     window.onerror = function(message, url, lineNumber, columnNumber, errObj) {
       var error = errObj;
+      // If the error object does not exist create one.
       if (!error) {
         error = new Error();
         error.message = message;
