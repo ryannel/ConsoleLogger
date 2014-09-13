@@ -39,21 +39,17 @@
    * The error catcher will capture all errors that bubble up to the window, logs them to the
    * console and server if appropriate.
    * When returning true will suppress all errors.
-   * 
-   * Please note that some browsers have yet to implement the new spec and 
-   * will not provide an error object as a paramater.
    */
   function initErrorListener() {
     window.onerror = function(message, url, lineNumber, columnNumber, errObj) {
       var error = errObj;
-      // If the error object does not exist create one.
       if (!error) {
         error = new Error();
         error.message = message;
         error.lineNumber = lineNumber;
       }
 
-      // Log uncaught errors to screen if log level is correct
+      // If no error type exists this error has bubbled to the window object and needs to be logged to console.
       if (!error.type && error.message) {
         defaults.error.apply(console, error.message);
         error.type = 'error';
@@ -95,7 +91,7 @@
     var error = new Error();
     error.message = message;
     error.type = type;
-    return logError(error);
+    return error;
   }
 
   /**
@@ -148,7 +144,7 @@
         var curArguments = formatColours(arguments);
         defaults[type].apply(console, curArguments);
       }
-      generateError(type, message);
+      logError(generateError(type, message));
     });
   }
 
