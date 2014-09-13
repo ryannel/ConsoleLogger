@@ -70,7 +70,9 @@
    */
   function logError(errObj) {
     // Log message to server
-    if (serverLogLevel >= level[errObj.type])
+    if (serverLogLevel >= level[errObj.type]) {
+      
+    }
 
     // Suppress Errors
     return true;
